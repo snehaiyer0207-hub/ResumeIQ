@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ResumeIQ | Resume Intelligence</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <span class="logo-icon">◈</span>
+        Resume<span>IQ</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="#">Analytics</a>
+        <a href="#">About</a>
+    </div>
+
+</nav>
+
+
+<main class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            ✦ AI-POWERED RESUME INTELLIGENCE
+        </div>
+
+
+        <h1>
+            Make your resume
+            <span>work harder.</span>
+        </h1>
+
+
+        <p class="hero-text">
+            ResumeIQ analyzes your resume, evaluates ATS
+            compatibility, identifies skill gaps and gives
+            actionable recommendations to improve your
+            career profile.
+        </p>
+
+
+        <div class="upload-card">
+
+            <form action="/analyze"
+                  method="POST"
+                  enctype="multipart/form-data">
+
+
+                <div class="upload-area">
+
+                    <div class="upload-icon">
+                        ↑
+                    </div>
+
+
+                    <h2>
+                        Upload your resume
+                    </h2>
+
+
+                    <p>
+                        Drop your PDF here or browse your files
+                    </p>
+
+
+                    <input type="file"
+                           name="resume"
+                           accept=".pdf"
+                           id="resume"
+                           required>
+
+
+                    <label for="resume"
+                           class="browse-button">
+                        Browse Resume
+                    </label>
+
+
+                    <div id="file-name">
+                        PDF files only
+                    </div>
+
+                </div>
+
+
+                <div class="role-section">
+
+                    <label for="job_role">
+                        TARGET JOB ROLE
+                    </label>
+
+
+                    <select name="job_role"
+                            id="job_role"
+                            required>
+
+                        {% for role in job_roles %}
+
+                            <option value="{{ role }}">
+                                {{ role }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <button type="submit"
+                        class="analyze-button">
+
+                    Analyze Resume
+                    <span>→</span>
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-glow glow-one"></div>
+
+    <div class="hero-glow glow-two"></div>
+
+</main>
+
+
+<section class="features">
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            ◉
+        </div>
+
+        <h3>
+            ATS Analysis
+        </h3>
+
+        <p>
+            Measure how effectively your resume
+            performs against ATS systems.
+        </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            ◇
+        </div>
+
+        <h3>
+            Skill Gap Detection
+        </h3>
+
+        <p>
+            Discover the skills you're missing
+            for your target role.
+        </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            ✦
+        </div>
+
+        <h3>
+            Smart Recommendations
+        </h3>
+
+        <p>
+            Get practical recommendations to
+            strengthen your resume.
+        </p>
+
+    </div>
+
+
+</section>
+
+
+<script>
+
+    const resumeInput =
+        document.getElementById("resume");
+
+    const fileName =
+        document.getElementById("file-name");
+
+
+    resumeInput.addEventListener(
+        "change",
+        function () {
+
+            if (this.files.length > 0) {
+
+                fileName.textContent =
+                    "Selected: " +
+                    this.files[0].name;
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

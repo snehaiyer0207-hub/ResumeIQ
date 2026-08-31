@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ResumeIQ | Analysis</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <span class="logo-icon">◈</span>
+        Resume<span>IQ</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="/">New Analysis</a>
+        <a href="#">Analytics</a>
+        <a href="#">About</a>
+    </div>
+
+</nav>
+
+
+<main class="dashboard">
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <div class="badge">
+                ✦ ANALYSIS COMPLETE
+            </div>
+
+            <h1>
+                Resume Intelligence
+            </h1>
+
+            <p>
+                Analysis generated for
+                <strong>{{ job_role }}</strong>
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ANALYTICS -->
+
+    <section class="analytics-grid">
+
+
+        <!-- ATS SCORE -->
+
+        <div class="analytics-card ats-card">
+
+            <div class="card-label">
+                ATS COMPATIBILITY
+            </div>
+
+            <div class="score-circle">
+
+                <div class="score-inner">
+
+                    <span>
+                        {{ result.ats_score }}
+                    </span>
+
+                    <small>/100</small>
+
+                </div>
+
+            </div>
+
+            <p class="score-description">
+                Overall resume compatibility
+            </p>
+
+        </div>
+
+
+        <!-- KEYWORD MATCH -->
+
+        <div class="analytics-card">
+
+            <div class="card-label">
+                KEYWORD MATCH
+            </div>
+
+            <div class="big-number">
+                {{ result.keyword_score }}%
+            </div>
+
+            <div class="progress">
+
+                <div class="progress-fill"
+                     data-score="{{ result.keyword_score }}">
+                </div>
+
+            </div>
+
+            <p class="score-description">
+                Match with {{ job_role }} requirements
+            </p>
+
+        </div>
+
+
+        <!-- WORD COUNT -->
+
+        <div class="analytics-card">
+
+            <div class="card-label">
+                RESUME LENGTH
+            </div>
+
+            <div class="big-number">
+                {{ result.word_count }}
+            </div>
+
+            <p class="metric-label">
+                WORDS
+            </p>
+
+            {% if result.word_count >= 150 and result.word_count <= 700 %}
+
+                <p class="good">
+                    ✓ Good content length
+                </p>
+
+            {% else %}
+
+                <p class="bad">
+                    ! Consider adjusting content length
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- SKILLS -->
+
+        <div class="analytics-card">
+
+            <div class="card-label">
+                SKILLS DETECTED
+            </div>
+
+            <div class="big-number">
+                {{ result.skills|length }}
+            </div>
+
+            <p class="score-description">
+                Recognized technical skills
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTENT -->
+
+    <section class="content-grid">
+
+
+        <!-- SKILL ANALYSIS -->
+
+        <div class="dashboard-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <h2>
+                        Skill Analysis
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <p class="section-description">
+                Technical skills detected from your resume.
+            </p>
+
+
+            <div class="skill-tags">
+
+                {% for skill in result.skills %}
+
+                    <span class="skill-tag">
+                        {{ skill }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- RESUME STRUCTURE -->
+
+        <div class="dashboard-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <h2>
+                        Resume Structure
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <p class="section-description">
+                Important sections detected in your resume.
+            </p>
+
+
+            <div class="section-list">
+
+                {% for section, present in result.sections.items() %}
+
+                    <div class="section-row">
+
+                        <span>
+                            {{ section|capitalize }}
+                        </span>
+
+                        {% if present %}
+
+                            <span class="status good">
+                                ✓ PRESENT
+                            </span>
+
+                        {% else %}
+
+                            <span class="status bad">
+                                ✕ MISSING
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- KEYWORD INTELLIGENCE -->
+
+        <div class="dashboard-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <h2>
+                        Keyword Intelligence
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <p class="section-description">
+                Keywords relevant to your selected job role.
+            </p>
+
+
+            <h4 class="subheading">
+                MATCHED KEYWORDS
+            </h4>
+
+            <div class="skill-tags">
+
+                {% for keyword in result.matched_keywords %}
+
+                    <span class="skill-tag matched">
+                        {{ keyword }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+
+            <h4 class="subheading missing-title">
+                MISSING KEYWORDS
+            </h4>
+
+            <div class="skill-tags">
+
+                {% for keyword in result.missing_keywords %}
+
+                    <span class="skill-tag missing">
+                        {{ keyword }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- RECOMMENDATIONS -->
+
+        <div class="dashboard-card recommendation-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-number">
+                        04
+                    </span>
+
+                    <h2>
+                        Smart Recommendations
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <p class="section-description">
+                Actionable improvements based on your resume analysis.
+            </p>
+
+
+            {% for recommendation in result.recommendations %}
+
+                <div class="recommendation">
+
+                    <div class="recommendation-icon">
+                        !
+                    </div>
+
+                    <div>
+                        {{ recommendation }}
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <div class="bottom-action">
+
+        <a href="/" class="analyze-button">
+            Analyze Another Resume →
+        </a>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const progress =
+        document.querySelector(".progress-fill");
+
+    if (progress) {
+
+        const score =
+            progress.getAttribute("data-score");
+
+        progress.style.width = score + "%";
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
